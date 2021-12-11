@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"os"
 
@@ -24,12 +25,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	features.Handle(ctx)
 
-	var (
-		u    tb.Update
-		body []byte
-	)
+	var u tb.Update
 
-	common.Must2(r.Body.Read(body))
+	body, err := io.ReadAll(r.Body)
+
+	common.Must(err)
 	common.Must(json.Unmarshal(body, &u))
 
 	b.ProcessUpdate(u)
