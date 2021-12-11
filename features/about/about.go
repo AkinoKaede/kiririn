@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/AkinoKaede/kiririn/v2"
 	"github.com/AkinoKaede/kiririn/v2/common/session"
+	"github.com/AkinoKaede/kiririn/v2/kiririn"
 
 	tb "gopkg.in/tucnak/telebot.v2"
 )
