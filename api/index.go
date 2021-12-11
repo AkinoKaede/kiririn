@@ -1,9 +1,14 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"os"
+
+	"github.com/AkinoKaede/kiririn/v2/common"
+	"github.com/AkinoKaede/kiririn/v2/common/session"
+	"github.com/AkinoKaede/kiririn/v2/features"
 
 	tb "gopkg.in/tucnak/telebot.v2"
 )
@@ -13,23 +18,19 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		Token:       os.Getenv("KIRIRIN_TELEGRAM_TOKEN"),
 		Synchronous: true,
 	})
+	common.Must(err)
 
-	if err != nil {
-		panic(err)
-	}
+	ctx := session.ContextWithBot(context.Background(), b)
+
+	features.Handle(ctx)
 
 	var (
 		u    tb.Update
 		body []byte
 	)
 
-	if _, err := r.Body.Read(body); err != nil {
-		panic(err)
-	}
-
-	if err = json.Unmarshal(body, &u); err != nil {
-		panic(err)
-	}
+	common.Must2(r.Body.Read(body))
+	common.Must(json.Unmarshal(body, &u))
 
 	b.ProcessUpdate(u)
 }
