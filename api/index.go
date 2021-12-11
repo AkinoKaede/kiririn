@@ -14,16 +14,17 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-var ctx = context.Background()
+var (
+	ctx = context.Background()
+)
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	b := session.BotFromContext(ctx)
 
-	var u tb.Update
-
 	body, err := io.ReadAll(r.Body)
 	common.Must(err)
 
+	var u tb.Update
 	common.Must(json.Unmarshal(body, &u))
 
 	b.ProcessUpdate(u)
