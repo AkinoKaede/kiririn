@@ -8,6 +8,7 @@ import (
 	"github.com/AkinoKaede/kiririn/v2/common"
 	"github.com/AkinoKaede/kiririn/v2/common/session"
 	"github.com/AkinoKaede/kiririn/v2/features"
+	_ "github.com/AkinoKaede/kiririn/v2/main/distro/all"
 
 	tb "gopkg.in/tucnak/telebot.v2"
 )

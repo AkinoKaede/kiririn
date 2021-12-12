@@ -4,13 +4,14 @@ import (
 	"context"
 
 	"github.com/AkinoKaede/kiririn/v2/common/session"
-	"github.com/AkinoKaede/kiririn/v2/features/about"
 )
 
 type ProcessFunc func(context.Context) interface{}
 
-var features = map[interface{}]ProcessFunc{
-	"/about": about.Process,
+var features = make(map[interface{}]ProcessFunc)
+
+func RegisterFeature(endpoint interface{}, process ProcessFunc) {
+	features[endpoint] = process
 }
 
 func Handle(ctx context.Context) {
