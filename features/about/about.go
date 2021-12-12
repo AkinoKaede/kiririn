@@ -11,7 +11,7 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-func Process(ctx context.Context) interface{} {
+func Process(ctx context.Context) func(*tb.Message) {
 	b := session.BotFromContext(ctx)
 
 	return func(m *tb.Message) {
@@ -20,5 +20,7 @@ func Process(ctx context.Context) interface{} {
 }
 
 func init() {
-	features.RegisterFeature("/about", Process)
+	features.RegisterFeature("/about", func(ctx context.Context) interface{} {
+		return Process(ctx)
+	})
 }
